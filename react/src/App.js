@@ -1,16 +1,20 @@
-import logo from './logo.svg';
-import ErrorBoundary from './ErrorBoundary';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Calculator from './pages/Calculator';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ErrorBoundary>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header>
-      </div>
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/calculator" element={<Calculator />} />
+          <Route path="*" element={<div>Страница не найдена</div>} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
