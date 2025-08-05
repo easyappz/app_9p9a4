@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Calculator API
+  version: 1.0.0
+  description: API for a calculator application with history storage
+servers:
+  - url: /api
+    description: Base API URL
+paths:
+  /hello:
+    get:
+      summary: Simple hello endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Hello from API!
+  /status:
+    get:
+      summary: Check API status
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: 2023-10-01T12:00:00.000Z
+  /calculations:
+    post:
+      summary: Save a new calculation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - expression
+                - result
+              properties:
+                expression:
+                  type: string
+                  example: 2 + 3
+                result:
+                  type: number
+                  example: 5
+      responses:
+        '201':
+          description: Calculation saved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60a7b8c9d4e5f1234567890
+                  expression:
+                    type: string
+                    example: 2 + 3
+                  result:
+                    type: number
+                    example: 5
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2023-10-01T12:00:00.000Z
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Expression and result are required
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Database error message
+    get:
+      summary: Get calculation history
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60a7b8c9d4e5f1234567890
+                    expression:
+                      type: string
+                      example: 2 + 3
+                    result:
+                      type: number
+                      example: 5
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: 2023-10-01T12:00:00.000Z
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Database error message

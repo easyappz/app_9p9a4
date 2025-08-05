@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { saveCalculation, getHistory } = require('@src/controllers/calculationController');
 
 /**
  * Пример создания модели в базу данных
@@ -30,5 +31,11 @@ router.get('/status', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// POST /api/calculations - Save a calculation
+router.post('/calculations', saveCalculation);
+
+// GET /api/calculations - Get calculation history
+router.get('/calculations', getHistory);
 
 module.exports = router;
